@@ -32,7 +32,6 @@ class SignInActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(userEmail, password)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
-                        UserInformation.getInstance().setUserEmail(userEmail)
                         val intent = Intent(this, HomeActivity::class.java)
                         startActivity(intent)
                         //메인화면으로 넘어감

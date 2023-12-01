@@ -3,6 +3,8 @@ package com.example.hlmp_project
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hlmp_project.databinding.ActivityRegisterBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -14,6 +16,7 @@ class RegisterActivity : AppCompatActivity(){
     private var myAdapter: MyAdapter? = null
     private lateinit var products : ArrayList<Product>
     private val defaultImg = "gs://hlmp-project.appspot.com/default_img.jpg"
+    private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
@@ -36,7 +39,7 @@ class RegisterActivity : AppCompatActivity(){
         var seller = binding.addSeller.text.toString()
         var price= binding.addPrice.text.toString().toIntOrNull()
         var detail = binding.addDetail.text.toString()
-        var email = UserInformation.getInstance().getUserEmail()
+        var uid =Firebase.auth.currentUser?.uid
 
 
 
@@ -46,7 +49,7 @@ class RegisterActivity : AppCompatActivity(){
             "price" to price,
             "detail" to detail,
             "imageUrl" to defaultImg, // 이미지 추가기능 없음, 기본 이미지 사용
-            "email" to email,
+            "uid" to uid,
             "status" to true
       )
 

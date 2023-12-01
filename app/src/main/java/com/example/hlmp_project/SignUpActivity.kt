@@ -1,5 +1,6 @@
 package com.example.hlmp_project
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hlmp_project.databinding.ActivitySignBinding
@@ -19,7 +20,6 @@ class SignUpActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignBinding.inflate(layoutInflater) //뷰 바인딩
         setContentView(binding.root) //뷰 바인딩
-
         auth = Firebase.auth
 
         val toolbar = binding.toolbar5
@@ -29,14 +29,13 @@ class SignUpActivity : AppCompatActivity() {
         binding.signBtn.setOnClickListener {
             signUp(binding.idEditText.text.toString(), binding.pwEditText.text.toString())
             addInfo()
-            finish()
         }
     }
 
-    private fun addInfo(){
+    private fun addInfo() {
         var idText = binding.idEditText.text.toString()
         var pwText = binding.pwEditText.text.toString()
-        var nameText= binding.nameEditText.text.toString()
+        var nameText = binding.nameEditText.text.toString()
         var birthText = binding.birthEditText.text.toString()
 
         val itemMap = hashMapOf(
@@ -52,11 +51,12 @@ class SignUpActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(userEmail, password)
             .addOnCompleteListener(this) {
                 if (it.isSuccessful) {
-                    val user =  auth.currentUser
-                    binding.idEditText.text.clear()
-                    binding.pwEditText.text.clear()
-                    binding.nameEditText.text.clear()
-                    binding.birthEditText.text.clear()
+                    //binding.idEditText.text.clear()
+                    //binding.pwEditText.text.clear()
+                    //binding.nameEditText.text.clear()
+                    //binding.birthEditText.text.clear()
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
                 } else {
                     println("회원가입실패!")
                 }

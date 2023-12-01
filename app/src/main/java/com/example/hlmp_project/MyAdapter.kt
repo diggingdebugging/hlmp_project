@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.imageview.ShapeableImageView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
@@ -16,11 +18,11 @@ import com.google.firebase.storage.ktx.storage
 import java.io.Serializable
 
 data class Product(val id: String , var imageUrl : String, var title : String, var seller : String,
-    var detail : String, var price : Int, var status : Boolean, var email : String) : Serializable{
+    var detail : String, var price : Int, var status : Boolean, var uid : String) : Serializable{
     constructor(doc: QueryDocumentSnapshot) :
             this(doc.id, doc["imageUrl"].toString(), doc["title"].toString(), doc["seller"].toString(),
                 doc["detail"].toString(), doc["price"].toString().toIntOrNull() ?: 0,
-                doc["status"].toString().toBoolean(), doc["email"].toString())
+                doc["status"].toString().toBoolean(), doc["uid"].toString())
 }
 
 interface OnItemClickListeners {
@@ -32,11 +34,14 @@ class MyViewHolder(view : View) : RecyclerView.ViewHolder(view){
     val titleImage : ShapeableImageView = view.findViewById<ShapeableImageView>(R.id.title_image)
     val titleInfo : TextView = view.findViewById<TextView>(R.id.tvHeading)
     var currentProduct : Product? = null
-    private val userEmail = UserInformation.getInstance().getUserEmail()
+    private lateinit var auth: FirebaseAuth
 
     init { //한 개의 뷰를 클릭했을때
         view.setOnClickListener {
-            if(userEmail == currentProduct?.email){
+            auth = Firebase.auth
+            val currentUser = auth.currentUser?.uid
+            println(currentUser)
+            if(currentUser == currentProduct?.uid){
                 currentProduct?.let { product ->
                     val intent = Intent(context, ModifyActivity::class.java)
                     intent.putExtra("product", product as Serializable)
