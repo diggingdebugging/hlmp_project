@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hlmp_project.databinding.ActivityProductBinding
+import java.io.Serializable
 
 class ProductActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProductBinding
@@ -19,7 +20,6 @@ class ProductActivity : AppCompatActivity() {
         val toolbar = binding.toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        println("ProductActivity")
 
         setContentView(binding.root)
         val product = intent.getSerializableExtra("product", Product::class.java)
@@ -28,9 +28,12 @@ class ProductActivity : AppCompatActivity() {
         binding.textDetail.text = product?.detail.toString()
         binding.textPrice.text = product?.price.toString()
 
-        binding.msgBtn.setOnClickListener {
+        /*binding.msgBtn.setOnClickListener {
+            val intent = Intent(this, MessageActivity::class.java)
+            intent.putExtra("product", product as Serializable)
+            startActivity(intent)
 
-        }
+        }*/
     }
 }
 

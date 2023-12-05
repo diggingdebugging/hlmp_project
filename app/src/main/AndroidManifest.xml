@@ -59,6 +59,12 @@
             android:parentActivityName=".HomeActivity">
         </activity>
 
+        <activity
+            android:name=".MessageActivity"
+            android:exported="true"
+            android:parentActivityName=".HomeActivity">
+        </activity>
+
 
     </application>
 
